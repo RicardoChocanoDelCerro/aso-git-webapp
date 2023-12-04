@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  redis:
+    image: "redis:latest"
+    ports:
+      - "6379:6379"
+
+  webapp:
+    build:
+      context: ./webapp
+      dockerfile: Dockerfile
+    image: visitasimg
+    environment:
+      - PORT=5000
+      - CLIENT_NAME=Ricardo
+      - REDISHOST=redis
+      - REDISPORT=6379
+      - IS_REDIS_AVAILABLE=False
+      - VERSION=4
+      - DEBUG=True
+    ports:
+      - "80:5000"
+    depends_on:
+      - redis
